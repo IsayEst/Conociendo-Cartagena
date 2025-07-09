@@ -2,6 +2,7 @@ package conociendocartagena.backend_conociendocartagena.controller;
 
 import java.util.ArrayList;
 
+// Librerias Spring
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+// DTOs
 import conociendocartagena.backend_conociendocartagena.DTOs.ResponseDtos;
 // Modelo
 import conociendocartagena.backend_conociendocartagena.models.Restaurante;
@@ -53,7 +55,7 @@ public class RestauranteController {
    public ResponseDtos consulta(@PathVariable int idRestaurante) {
     for(Restaurante restaurante : listRestaurantes){
         if(restaurante.idRestaurante == idRestaurante){
-            return new ResponseDtos("success", "Usuacio Encontrado", restaurante);
+            return new ResponseDtos("success", "Restaurante Encontrado", restaurante);
         }
     }
         return new ResponseDtos("Warning", "restaurante no Existe", null);
@@ -81,10 +83,10 @@ public class RestauranteController {
     for(int i = 0; i<listRestaurantes.size(); i++){
         if(listRestaurantes.get(i).idRestaurante == idRestaurante){
             listRestaurantes.set(i, restaurant);
-            return new ResponseDtos("success", "Usuario Actualizado", listRestaurantes.get(i) );
+            return new ResponseDtos("success", "Restaurante Actualizado", listRestaurantes.get(i) );
         }
     }
-        return new ResponseDtos("Warning", "Usuario no Actualizado", null);
+        return new ResponseDtos("Warning", "Restaurante no Actualizado", null);
    }
 
 }
