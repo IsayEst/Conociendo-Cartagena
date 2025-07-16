@@ -1,9 +1,13 @@
 package conociendocartagena.backend_conociendocartagena.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Tours {
@@ -18,7 +22,13 @@ public class Tours {
     private double tarifaTuor;
     private boolean reservaRequerida;
 
+    @OneToMany(mappedBy = "tour") // "tour" es el nombre del campo en ReservaTours
+    private List<ReservaTours> reservasTours = new ArrayList<>();
 
+     // Constructores, Getters y Setters
+    public Tours() {
+    }
+    
     public int getIdTuor() {
         return idTuor;
     }

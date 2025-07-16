@@ -1,9 +1,13 @@
 package conociendocartagena.backend_conociendocartagena.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Restaurante {
@@ -19,6 +23,12 @@ public class Restaurante {
     private String horarioAtencion;
     private int capacidad;
 
+    @OneToMany(mappedBy = "restaurante")
+    private List<ReservaRestaurante> reservasRestaurante = new ArrayList<>(); // Inicializar para evitar NullPointerException
+
+     // Constructores, Getters y Setters
+    public Restaurante() {
+    }
 
     public int getIdRestaurante() {
         return idRestaurante;
@@ -69,6 +79,16 @@ public class Restaurante {
         this.capacidad = capacidad;
     }
 
+        // En Restaurante.java
+    public void addReservaRestaurante(ReservaRestaurante reserva) {
+        this.reservasRestaurante.add(reserva);
+        reserva.setRestaurante(this); // Importante para que el lado ManyToOne también se actualice
+    }
+
+    public void removeReservaRestaurante(ReservaRestaurante reserva) {
+        this.reservasRestaurante.remove(reserva);
+        reserva.setRestaurante(null); // Importante para romper el vínculo
+    }
 
     
 }

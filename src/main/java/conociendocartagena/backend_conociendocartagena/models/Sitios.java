@@ -1,9 +1,13 @@
 package conociendocartagena.backend_conociendocartagena.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Sitios {
@@ -17,7 +21,12 @@ public class Sitios {
     private String horarioAtencion;
     private int capacidadMaxima;
 
+    @OneToMany(mappedBy = "sitioTuristico")
+    private List<ReservaSitios> reservasSitios = new ArrayList<>();
 
+       // Constructores, Getters y Setters
+    public Sitios() {
+    }
     public int getIdSitios() {
         return idSitios;
     }
