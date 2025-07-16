@@ -73,6 +73,26 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- Spring Boot Data JPA -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<!-- Controlador de base de datos (Ejemplo: SQL server) -->
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			
+		</dependency>
+
+		<!-- Base de datos H2 para pruebas -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -50,7 +50,7 @@ public class UsuarioController {
    @Operation(summary = "Consultar usuarios por ID", description = "Consultar usuarios por su ID en el sistema")
    public ResponseDtos consulta(@PathVariable int id) {
     for(Usuario usuario : listUsuarios){
-        if(usuario.id == id){
+        if(usuario.getIdUsuario() == id){
             return new ResponseDtos("success", "Usuacio Encontrado", usuario);
         }
     }
@@ -63,7 +63,7 @@ public class UsuarioController {
    @Operation(summary = "Eliminar usuarios con ID", description = "Eliminar usuarios con ID en el sistema")
    public ResponseDtos eliminar(@PathVariable int id) {
     for(Usuario usuario : listUsuarios){
-        if(usuario.id == id){
+        if(usuario.getIdUsuario() == id){
             listUsuarios.remove(usuario);
             return new ResponseDtos("success", "Usuario Eliminado", usuario);
         }
@@ -77,7 +77,7 @@ public class UsuarioController {
    @Operation(summary = "Actualiza usuarios con ID", description = "Actualiza usuarios con ID en el sistema")
    public ResponseDtos actualizar(@PathVariable int id, @RequestBody Usuario user) {
     for(int i = 0; i<listUsuarios.size(); i++){
-        if(listUsuarios.get(i).id == id){
+        if(listUsuarios.get(i).getIdUsuario() == id){
             listUsuarios.set(i, user);
             return new ResponseDtos("success", "Usuario Actualizado", listUsuarios.get(i) );
         }

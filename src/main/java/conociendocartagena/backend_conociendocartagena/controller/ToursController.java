@@ -53,7 +53,7 @@ public class ToursController {
    @Operation(summary = "Consultar tour por ID", description = "Consultar tour por su ID en el sistema")
    public ResponseDtos consulta(@PathVariable int idTour) {
     for(Tours tuor : listTours){
-        if(tuor.idTuor == idTour){
+        if(tuor.getIdTuor() == idTour){
             return new ResponseDtos("success", "tour Encontrado", tuor);
         }
     }
@@ -66,7 +66,7 @@ public class ToursController {
    @Operation(summary = "Eliminar tour con ID", description = "Eliminar tour con ID en el sistema")
    public ResponseDtos eliminar(@PathVariable int idTour) {
     for(Tours tour : listTours){
-        if(tour.idTuor == idTour){
+        if(tour.getIdTuor()  == idTour){
             listTours.remove(tour);
             return new ResponseDtos("success", "tour Eliminado", tour);
         }
@@ -80,7 +80,7 @@ public class ToursController {
    @Operation(summary = "Actualiza tour con ID", description = "Actualiza tour con ID en el sistema")
    public ResponseDtos actualizar(@PathVariable int idTour, @RequestBody Tours tour) {
     for(int i = 0; i<listTours.size(); i++){
-        if(listTours.get(i).idTuor == idTour){
+        if(listTours.get(i).getIdTuor()  == idTour){
             listTours.set(i, tour);
             return new ResponseDtos("success", "tour Actualizado", listTours.get(i) );
         }

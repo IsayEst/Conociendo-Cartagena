@@ -54,7 +54,7 @@ public class RestauranteController {
    @Operation(summary = "Consultar restaurante por ID", description = "Consultar restaurante por su ID en el sistema")
    public ResponseDtos consulta(@PathVariable int idRestaurante) {
     for(Restaurante restaurante : listRestaurantes){
-        if(restaurante.idRestaurante == idRestaurante){
+        if(restaurante.getIdRestaurante() == idRestaurante){
             return new ResponseDtos("success", "Restaurante Encontrado", restaurante);
         }
     }
@@ -67,7 +67,7 @@ public class RestauranteController {
    @Operation(summary = "Eliminar restaurantes con ID", description = "Eliminar restaurantes con ID en el sistema")
    public ResponseDtos eliminar(@PathVariable int idRestaurante) {
     for(Restaurante restaurante : listRestaurantes){
-        if(restaurante.idRestaurante == idRestaurante){
+        if(restaurante.getIdRestaurante() == idRestaurante){
             listRestaurantes.remove(restaurante);
             return new ResponseDtos("success", "restaurante Eliminado", restaurante);
         }
@@ -81,7 +81,7 @@ public class RestauranteController {
    @Operation(summary = "Actualiza restaurantes con ID", description = "Actualiza restaurantes con ID en el sistema")
    public ResponseDtos actualizar(@PathVariable int idRestaurante, @RequestBody Restaurante restaurant) {
     for(int i = 0; i<listRestaurantes.size(); i++){
-        if(listRestaurantes.get(i).idRestaurante == idRestaurante){
+        if(listRestaurantes.get(i).getIdRestaurante() == idRestaurante){
             listRestaurantes.set(i, restaurant);
             return new ResponseDtos("success", "Restaurante Actualizado", listRestaurantes.get(i) );
         }

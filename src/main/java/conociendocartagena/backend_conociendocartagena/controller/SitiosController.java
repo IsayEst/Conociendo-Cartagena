@@ -52,7 +52,7 @@ public class SitiosController {
    @Operation(summary = "Consultar tuor por ID", description = "Consultar sitios turisticos por su ID en el sistema")
    public ResponseDtos consulta(@PathVariable int idSitios) {
     for(Sitios sitio : listSitios){
-        if(sitio.idSitios == idSitios){
+        if(sitio.getIdSitios() == idSitios){
             return new ResponseDtos("success", "Sitio turistico Encontrado", sitio);
         }
     }
@@ -65,7 +65,7 @@ public class SitiosController {
    @Operation(summary = "Eliminar Tuor con ID", description = "Eliminar sitios turisticos con ID en el sistema")
    public ResponseDtos eliminar(@PathVariable int idSitios) {
     for(Sitios sitio : listSitios){
-        if(sitio.idSitios == idSitios){
+        if(sitio.getIdSitios() == idSitios){
             listSitios.remove(sitio);
             return new ResponseDtos("success", "sitios turisticos Eliminado", sitio);
         }
@@ -79,7 +79,7 @@ public class SitiosController {
    @Operation(summary = "Actualiza tuor con ID", description = "Actualiza Sitio turistico con ID en el sistema")
    public ResponseDtos actualizar(@PathVariable int idSitios, @RequestBody Sitios sitio) {
     for(int i = 0; i<listSitios.size(); i++){
-        if(listSitios.get(i).idSitios == idSitios){
+        if(listSitios.get(i).getIdSitios() == idSitios){
             listSitios.set(i, sitio);
             return new ResponseDtos("success", "Sitio turistico Actualizado", listSitios.get(i) );
         }
