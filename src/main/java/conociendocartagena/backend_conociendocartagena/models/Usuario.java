@@ -4,18 +4,26 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
-public class Usuario {
+@Table (name = "usuarios")// Nombre de la tabla en la base de datos
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // Estrategia de herencia SINGLE_TABLE
+@DiscriminatorColumn(name = "tipo_usuario", discriminatorType = DiscriminatorType.STRING)
+public abstract class Usuario {
     @Id
     // <-- Generación automática del ID
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Columna para distinguir el tipo de usuario
     private int idUsuario;
     private String nombre;
     private String apellido;
