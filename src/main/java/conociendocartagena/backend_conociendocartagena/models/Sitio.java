@@ -3,6 +3,7 @@ package conociendocartagena.backend_conociendocartagena.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType; // Importar para operaciones en cascada
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,11 +22,11 @@ public class Sitio {
     private String horarioAtencion;
     private int capacidadMaxima;
 
-    @OneToMany(mappedBy = "sitioTuristico")
+    @OneToMany(mappedBy = "sitio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReservaSitio> reservasSitios = new ArrayList<>();
 
-    @OneToMany(mappedBy = "reserva")
-    private List<Reserva> reservas = new ArrayList<>();
+    /*@OneToMany(mappedBy = "reserva")
+    private List<Reserva> reservas = new ArrayList<>();*/
 
        // Constructores, Getters y Setters
     public Sitio() {

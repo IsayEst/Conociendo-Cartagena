@@ -3,6 +3,8 @@ package conociendocartagena.backend_conociendocartagena.models;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import jakarta.persistence.CascadeType; // Importar para operaciones en cascada
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,7 +25,7 @@ public class Tour {
     private boolean reservaRequerida;
     private int capacidadMaxima;
 
-    @OneToMany(mappedBy = "tour") // "tour" es el nombre del campo en ReservaTours
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true) // "tour" es el nombre del campo en ReservaTours
     private List<ReservaTour> reservasTours = new ArrayList<>();
 
     public List<ReservaTour> getReservasTours() {
@@ -33,8 +35,8 @@ public class Tour {
     public void setReservasTours(List<ReservaTour> reservasTours) {
         this.reservasTours = reservasTours;
     }
-    @OneToMany(mappedBy = "reserva")
-    private List<Reserva> reservas = new ArrayList<>();
+    /*@OneToMany(mappedBy = "reserva")
+    private List<Reserva> reservas = new ArrayList<>();*/
     
      // Constructores, Getters y Setters
     public Tour() {
