@@ -5,16 +5,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class ReservaTours extends Reserva {
+public class ReservaTour extends Reserva {
     private String nombreTour;
     private String duracionTour;
     private boolean guiaTour;
 
     @ManyToOne
     @JoinColumn(name = "idTuor")
-    private Tours tour; // <-- Campo para la relación con Tours
+    private Tour tour; // <-- Campo para la relación con Tours
 
-    public ReservaTours(){
+    public ReservaTour(){
 
     }
     
@@ -37,11 +37,11 @@ public class ReservaTours extends Reserva {
         this.guiaTour = guiaTour;
     }
     
-     public Tours getTour() {
+     public Tour getTour() {
         return tour;
     }
 
-    public void setTour(Tours tour) {
+    public void setTour(Tour tour) {
         this.tour = tour;
     }
     

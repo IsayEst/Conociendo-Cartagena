@@ -10,11 +10,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class Sitios {
+public class Sitio {
     @Id
     // <-- Generación automática del ID
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idSitios;
+    private int idSitio;
     private String nombreSitio;
     private String ubicacionSitio;
     private boolean reservaRequerida;
@@ -22,16 +22,19 @@ public class Sitios {
     private int capacidadMaxima;
 
     @OneToMany(mappedBy = "sitioTuristico")
-    private List<ReservaSitios> reservasSitios = new ArrayList<>();
+    private List<ReservaSitio> reservasSitios = new ArrayList<>();
+
+    @OneToMany(mappedBy = "reserva")
+    private List<Reserva> reservas = new ArrayList<>();
 
        // Constructores, Getters y Setters
-    public Sitios() {
+    public Sitio() {
     }
-    public int getIdSitios() {
-        return idSitios;
+    public int getIdSitio() {
+        return idSitio;
     }
-    public void setIdSitios(int idSitios) {
-        this.idSitios = idSitios;
+    public void setIdSitio(int idSitio) {
+        this.idSitio = idSitio;
     }
     public String getNombreSitio() {
         return nombreSitio;

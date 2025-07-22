@@ -20,11 +20,24 @@ public class Restaurante {
     private boolean reservaRequerida;
     private String tipoComida;
     private boolean parqueadero;
+    
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
     private String horarioAtencion;
     private int capacidad;
+    private int capacidadMaxima;
+    private String telefono; // Añadido para almacenar el teléfono del restaurante
 
     @OneToMany(mappedBy = "restaurante")
     private List<ReservaRestaurante> reservasRestaurante = new ArrayList<>(); // Inicializar para evitar NullPointerException
+
+    @OneToMany(mappedBy = "reserva")
+    private List<Reserva> reservas = new ArrayList<>();
 
      // Constructores, Getters y Setters
     public Restaurante() {
@@ -89,6 +102,11 @@ public class Restaurante {
         this.reservasRestaurante.remove(reserva);
         reserva.setRestaurante(null); // Importante para romper el vínculo
     }
-
+    public int getCapacidadMaxima() {
+        return capacidadMaxima;
+    }
+    public void setCapacidadMaxima(int capacidadMaxima) {
+        this.capacidadMaxima = capacidadMaxima;
+    }
     
 }

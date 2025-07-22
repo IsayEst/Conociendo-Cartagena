@@ -34,7 +34,7 @@ public abstract class Usuario {
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY) 
     private List<Reserva> reservas;
-
+   
     @JsonIgnore
     private String password;
 
