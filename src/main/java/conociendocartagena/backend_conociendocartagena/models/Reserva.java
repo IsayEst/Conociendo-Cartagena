@@ -3,6 +3,9 @@ package conociendocartagena.backend_conociendocartagena.models;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime; // Importar LocalTime
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -41,6 +44,7 @@ public abstract class Reserva { // Sigue siendo abstracta
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario") // Nombre de columna más estándar
+    @JsonIgnore // <-- ¡Añade esta anotación aquí!
     private Usuario usuario;
 
     // Relaciones con los recursos que se pueden reservar

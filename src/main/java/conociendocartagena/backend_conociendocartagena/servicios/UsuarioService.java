@@ -3,6 +3,7 @@ package conociendocartagena.backend_conociendocartagena.servicios;
 import conociendocartagena.backend_conociendocartagena.models.Usuario;
 import conociendocartagena.backend_conociendocartagena.repositorios.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,9 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder; // ¡Inyectar el PasswordEncoder!
+
     /**
      * Retrieves a list of all users.
      * @return A list of Usuario objects.
@@ -23,13 +27,14 @@ public class UsuarioService {
     }
 
     /**
-     * Saves a new user or updates an existing one.
      * @param usuario The Usuario object to save.
      * @return The saved Usuario object.
      */
     public Usuario crear(Usuario usuario) {
-        // Here you could add business logic before saving,
-        // e.g., encrypting password, validating email format, etc.
+        // Antes de guardar, hashear la contraseña
+        String hashedPassword = passwordEncoder.encode(usuario.getPassword());
+        usuario.setPassword(hashedPassword);
+  
         return usuarioRepository.save(usuario);
     }
 
@@ -59,10 +64,10 @@ public class UsuarioService {
     }
 
     /**
-     * Updates an existing user.
-     * @param id The ID of the user to update.
-     * @param usuarioActualizado The Usuario object with updated data.
-     * @return The updated Usuario object.
+     * Actualizar usuario existente.
+     * @param id Id usuario a actualizar.
+     * @param usuarioActualizado El usuario actualizado.
+     * @return El usuario actualizado.
      * @throws RuntimeException if the user is not found.
      */
     public Usuario actualizar(int id, Usuario usuarioActualizado) {
@@ -79,7 +84,17 @@ public class UsuarioService {
                     usuarioExistente.setEmail(usuarioActualizado.getEmail());
                     usuarioExistente.setTipo(usuarioActualizado.getTipo());
                     // Add other fields as needed
-
+                    // *** LÓGICA PARA LA CONTRASEÑA ***
+                    // Solo hashear y actualizar la contraseña si se proporciona una nueva
+                    // y no está vacía en el objeto de actualización.
+                    // Esto evita sobrescribir un hash válido con un valor nulo o vacío
+                    // si la contraseña no se envía en la solicitud de actualización.
+                    if (usuarioActualizado.getPassword() != null && !usuarioActualizado.getPassword().isEmpty()) {
+                        String hashedPassword = passwordEncoder.encode(usuarioActualizado.getPassword());
+                        usuarioExistente.setPassword(hashedPassword);
+                    }
+                    // Si usuarioActualizado.getPassword() es null o vacío,
+                    // la contraseña existente en usuarioExistente se mantiene sin cambios.
                     return usuarioRepository.save(usuarioExistente);
                 })
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));

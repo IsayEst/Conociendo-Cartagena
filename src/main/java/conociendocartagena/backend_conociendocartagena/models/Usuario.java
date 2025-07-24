@@ -38,21 +38,28 @@ public abstract class Usuario {
     // <-- Generación automática del ID
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Columna para distinguir el tipo de usuario
     private int idUsuario;
+    private String cedula;
     private String nombre;
     private String apellido;
     private String username;
     private String telefono;
     private String email;
     private String tipo;
-
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY) 
-    private List<Reserva> reservas;
-   
-    @JsonIgnore
     private String password;
 
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    @JsonIgnore // <-- ¡Añade esta anotación aquí! 
+    private List<Reserva> reservas;
+   
     public Usuario() {}
 
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
     public String getNombre() {
         return nombre;
     }
