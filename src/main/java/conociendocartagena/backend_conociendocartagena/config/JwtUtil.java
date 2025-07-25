@@ -63,7 +63,9 @@ public class JwtUtil {
                 .getExpiration();
         return expiration.before(new Date());
     }
+    public String refreshToken(String refreshToken) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'refreshToken'");
+    }
     
-    
-
 }
