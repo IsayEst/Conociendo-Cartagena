@@ -2,64 +2,68 @@ package conociendocartagena.backend_conociendocartagena.config;
 
 import java.util.Date;
 
+import javax.crypto.SecretKey;
+
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 
-import java.security.Key; // Importa Key
+import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+
+
 
 @Component
 public class JwtUtil {
     
-    private final String SECRET_KEY = "mi_clave_secreta";
-    private Key getSigningKey() {
-        // Decodifica la cadena SECRET_KEY_STRING (asumiendo que está en formato Base64)
-        // O simplemente convierte los bytes de la cadena directamente si no es Base64 (menos seguro para secretos cortos)
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY); // <-- Si tu SECRET_KEY es Base64
-        // byte[] keyBytes = SECRET_KEY_STRING.getBytes(); // <-- Si tu SECRET_KEY no es Base64 (menos recomendado)
-
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
-
-    public String generateToken(String username) {
-       
-        long expirationTimeMillis = System.currentTimeMillis() + 1000 * 60 * 60; // 1 hora de expiración
+    private static final String SECRET = "123456789123456789123456789123456789123456789123456789987654321isayest"; // Reemplaza con tu clave secreta
+    private SecretKey key; 
+        
+        @PostConstruct
+        public void init() {
+           key = Keys.hmacShaKeyFor(SECRET.getBytes());
+        }
+    // Generar un token JWT para un usuario
+    public String generateToken(String username, String nombre, String apellido) {
         return Jwts.builder()
                 .setSubject(username)
+                .claim("nombre", nombre)
+                .claim("apellido", apellido)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(expirationTimeMillis))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // Expira en 1 hora
+                .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
     }
-
+    // Extraer el nombre de usuario del token
     public String extractUsername(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
     }
-    public boolean validateToken(String token, String username) {
-        String extractedUsername = extractUsername(token);
-        return (extractedUsername.equals(username) && !isTokenExpired(token));
-    }
-
-    private boolean isTokenExpired(String token) {
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(getSigningKey())
-                    .build()
-                    .parseClaimsJws(token);
-            return false; // Si se puede analizar, no ha expirado
+    // Validar el token completo
+    public boolean validateToken(String token) {
+        try{
+            extractUsername(token);
+            return true;
         } catch (Exception e) {
-            return true; // Si hay un error, ha expirado
+            return false;
         }
     }
-
+    // Verifica si el token ha expirado
+    public boolean isTokenExpired(String token) {
+        Date expiration = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getExpiration();
+        return expiration.before(new Date());
+    }
+    
     
 
 }

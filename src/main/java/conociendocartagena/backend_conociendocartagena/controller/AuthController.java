@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import conociendocartagena.backend_conociendocartagena.DTOs.ResponseDtos;
+import conociendocartagena.backend_conociendocartagena.config.JwtUtil;
 import conociendocartagena.backend_conociendocartagena.models.Usuario;
 import conociendocartagena.backend_conociendocartagena.servicios.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,10 +28,14 @@ public class AuthController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private JwtUtil jwt;
+
     @RequestMapping(path = "login", method=RequestMethod.POST)
     @Operation(summary = "Autenticación de usuario", description = "Verifica las credenciales del usuario y devuelve un mensaje de éxito o error.")
     public ResponseDtos login(@RequestParam String username, @RequestParam String password) {
         boolean status = false;// Inicialmente asumimos que las credenciales son incorrectas
+        String token = "";// Inicialmente no hay token
         // Itera sobre la lista de todos los usuarios
         for(Usuario usuario : usuarioService.listar()) {
             // usuario.getPassword() es el hash BCrypt almacenado en la BD
@@ -38,12 +43,13 @@ public class AuthController {
                 // Verifica si la contraseña coincide
                if (passwordEncoder.matches(password, usuario.getPassword())) {
                    status = true;// Si coinciden las credenciales es true
+                   token = jwt.generateToken(usuario.getUsername(), usuario.getNombre(), usuario.getApellido());// Genera el token JWT
                    break;// Salir del bucle, ya encontramos el usuario y la contraseña correcta
                }
             }
             
         }
-        return new ResponseDtos(status ? "success" : "error", status ? "Usuario autenticado correctamente" : "Credenciales incorrectas", status);
+        return new ResponseDtos(status ? "success" : "error", status ? "Usuario autenticado correctamente" : "Credenciales incorrectas", token);
     }
     
     @RequestMapping(path = "logout", method=RequestMethod.POST)
